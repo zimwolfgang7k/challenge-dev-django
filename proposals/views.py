@@ -8,3 +8,4 @@ from .serializers import ProposalSerializer
 class ProposalView(generics.ListCreateAPIView):
     serializer_class = ProposalSerializer
     queryset = Proposal.objects.all()
+    
