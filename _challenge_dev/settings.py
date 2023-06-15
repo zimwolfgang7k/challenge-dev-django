@@ -46,18 +46,18 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "corsheaders"]
+THIRD_PARTY_APPS = ["rest_framework"]
 
-MY_APPS = ["proposals"]
+MY_APPS = ["proposals", "corsheaders"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
 MIDDLEWARE = [
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
