@@ -50,7 +50,11 @@ THIRD_PARTY_APPS = ["rest_framework"]
 
 MY_APPS = ["proposals", "corsheaders"]
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://api-django-challenge.onrender.com",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
