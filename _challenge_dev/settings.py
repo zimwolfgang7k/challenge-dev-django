@@ -60,8 +60,10 @@ CELERY_RESULT_BACKEND = "django-db"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://api-django-challenge.onrender.com",
-    "https://challenge-d55k5jcuv-zimwolfgang7k.vercel.app/",
+    "https://challenge-d55k5jcuv-zimwolfgang7k.vercel.app",
 ]
+
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq3:5672/"
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
@@ -114,7 +116,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB"),
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": "127.0.0.1",
+        "HOST": "db",
         "PORT": 5432,
     }
 }

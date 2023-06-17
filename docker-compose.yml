@@ -2,6 +2,7 @@ version: "3.8.10"
 
 services:
   db:
+    container_name: postgres_db
     image: postgres
     env_file: .env
     ports:
@@ -10,7 +11,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
+          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} ${POSTGRES_PASSWORD}"
         ]
       interval: 5s
       timeout: 2s
@@ -35,3 +36,23 @@ services:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A _challenge_dev worker -l info
+    volumes:
+      - .:/test_celery
+    env_file:
+      - ./.env
+    depends_on:
+      - rabbitmq3
+      - db
+
+  rabbitmq3:
+    container_name: "rabbitmq"
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
