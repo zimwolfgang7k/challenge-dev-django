@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import ProposalView
+from .views import create_proposal, get_proposal
 
-urlpatterns = [
-    path('proposals/', ProposalView.as_view())
-]
+urlpatterns = [path("proposals/", create_proposal, name="create_proposal")]
+# urlpatterns = [path("proposals/", get_proposal, name="get_proposal")]
