@@ -60,6 +60,7 @@ CELERY_RESULT_BACKEND = "django-db"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://api-django-challenge.onrender.com",
+    "https://challenge-d55k5jcuv-zimwolfgang7k.vercel.app/",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
