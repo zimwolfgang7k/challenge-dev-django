@@ -48,7 +48,13 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = ["rest_framework"]
 
-MY_APPS = ["proposals", "corsheaders"]
+MY_APPS = [
+    "proposals",
+    "corsheaders",
+    "django_celery_results",
+]
+
+CELERY_RESULT_BACKEND = "django-db"
 
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
@@ -90,6 +96,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "_challenge_dev.wsgi.application"
 
+# RabbitMQ configuration
+
+# RABBITMQ_HOST = "localhost"
+# RABBITMQ_PORT = 5672
+# RABBITMQ_USERNAME = "guest"
+# RABBITMQ_PASSWORD = "guest"
+# RABBITMQ_QUEUE = "proposals"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
