@@ -8,4 +8,3 @@ class ProposalSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict) -> Proposal:
         return Proposal.objects.create(**validated_data)
-    
