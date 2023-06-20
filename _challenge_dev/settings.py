@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "asldkhjasldjk")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -56,14 +56,28 @@ MY_APPS = [
 
 CELERY_RESULT_BACKEND = "django-db"
 
-# CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://api-django-challenge.onrender.com",
-    "https://challenge-d55k5jcuv-zimwolfgang7k.vercel.app",
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 
-CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq3:5672/"
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
@@ -99,30 +113,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "_challenge_dev.wsgi.application"
 
-# RabbitMQ configuration
-
-# RABBITMQ_HOST = "localhost"
-# RABBITMQ_PORT = 5672
-# RABBITMQ_USERNAME = "guest"
-# RABBITMQ_PASSWORD = "guest"
-# RABBITMQ_QUEUE = "proposals"
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": "db",
-        "PORT": 5432,
+if os.environ.get("TEST"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("POSTGRES_DB"),
+            "USER": os.environ.get("POSTGRES_USER"),
+            "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+            "HOST": "db",
+            "PORT": 5432,
+        }
+    }
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-
 if DATABASE_URL:
     db_deploy = dj_database_url.config(
         default=DATABASE_URL,
